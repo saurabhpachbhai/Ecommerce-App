@@ -1,0 +1,35 @@
+server:
+  port: '8015'
+
+spring:
+  application:
+   name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+      - id: USER-SERVICE
+        uri: lb://USER-SERVICE
+        predicates:
+        - Path=/ecommerce/users/**
+      - id: PRODUCT-SERVICE
+        uri: lb://PRODUCT-SERVICE
+        predicates:
+        - Path=/ecommerce/products/**
+         
+      - id: ADDCART-SERVICE
+        uri: lb://ADDCART-SERVICE
+        predicates:
+        - Path=/ecommerce/carts/**
+      - id: CHECKOUT-SERVICE
+        uri: lb://CHECKOUT-SERVICE
+        predicates:
+        - Path=/ecommerce/checkout/**
+     
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
